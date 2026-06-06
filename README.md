@@ -22,6 +22,19 @@ Then open:
 http://localhost:8080
 ```
 
+## Run In GitHub Codespaces
+
+1. Open the repository on GitHub.
+2. Select `Code` -> `Codespaces` -> `Create codespace on main`.
+3. Wait for the dev container setup to finish.
+4. Run:
+
+```bash
+mvn compile exec:java
+```
+
+Codespaces will forward port `8080` and open the Bank Log AI app in the browser.
+
 ## Log Input Formats
 
 The importer accepts:
