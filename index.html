@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bank Log Intelligence</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">BI</div>
+        <div>
+          <strong>Bank Intelligence</strong>
+          <span>Log AI Command Center</span>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="active" data-view="overview" title="Overview">
+          <span class="icon">⌂</span> Overview
+        </button>
+        <button data-view="logs" title="Log Stream">
+          <span class="icon">≡</span> Log Stream
+        </button>
+        <button data-view="incidents" title="Incidents">
+          <span class="icon">!</span> Incidents
+        </button>
+        <button data-view="reports" title="Reports">
+          <span class="icon">▣</span> Reports
+        </button>
+      </nav>
+      <div class="control-block">
+        <label for="serviceFilter">Service</label>
+        <select id="serviceFilter">
+          <option value="all">All services</option>
+        </select>
+      </div>
+      <div class="control-block">
+        <label for="sensitivity">Anomaly sensitivity</label>
+        <input id="sensitivity" type="range" min="1" max="5" value="3" />
+      </div>
+      <div class="control-block">
+        <label for="logFile">Import logs</label>
+        <input id="logFile" type="file" accept=".log,.txt,.json,.csv,application/json,text/csv,text/plain" />
+      </div>
+    </aside>
+
+    <main class="app-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Operational risk workspace</p>
+          <h1>AI-assisted log analysis and incident reporting</h1>
+        </div>
+        <div class="top-actions">
+          <button id="runAnalysis" class="primary">Run analysis</button>
+          <button id="exportReport">Export report</button>
+        </div>
+      </header>
+
+      <section id="overview" class="view active">
+        <div class="hero-band">
+          <div>
+            <p class="eyebrow">Current window</p>
+            <h2 id="summaryTitle">Payments latency elevated with authentication noise</h2>
+            <p id="summaryText">
+              AI triage is correlating application logs, security events, and deployment changes.
+            </p>
+          </div>
+          <div class="risk-meter" aria-label="Risk score">
+            <span id="riskScore">82</span>
+            <small>Risk score</small>
+          </div>
+        </div>
+
+        <section class="metric-grid">
+          <article class="metric">
+            <span>Critical alerts</span>
+            <strong id="criticalCount">0</strong>
+          </article>
+          <article class="metric">
+            <span>Impacted services</span>
+            <strong id="serviceCount">0</strong>
+          </article>
+          <article class="metric">
+            <span>Failed transactions</span>
+            <strong id="failureCount">0</strong>
+          </article>
+          <article class="metric">
+            <span>Mean confidence</span>
+            <strong id="confidenceScore">0%</strong>
+          </article>
+        </section>
+
+        <section class="split">
+          <div class="panel">
+            <div class="panel-header">
+              <h3>Event pattern</h3>
+              <span>Last 60 minutes</span>
+            </div>
+            <div id="chart" class="chart"></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header">
+              <h3>AI hypothesis</h3>
+              <span>Evidence backed</span>
+            </div>
+            <ol id="hypotheses" class="hypotheses"></ol>
+          </div>
+        </section>
+      </section>
+
+      <section id="logs" class="view">
+        <section class="import-panel">
+          <div>
+            <h3>Local log import</h3>
+            <p>Paste JSON, CSV, or plain text logs. Analysis runs in the Java LangGraph4j workflow.</p>
+          </div>
+          <textarea id="rawLogs" placeholder="Example: 2026-06-05T09:06:00Z level=ERROR service=payment-gateway trace=trc-1848 authorization timeout"></textarea>
+          <button id="analyzeRaw" class="primary">Analyze pasted logs</button>
+        </section>
+        <div class="toolbar">
+          <input id="searchBox" type="search" placeholder="Search logs, users, systems, keywords" />
+          <div class="segmented">
+            <button class="active" data-severity="all">All</button>
+            <button data-severity="critical">Critical</button>
+            <button data-severity="warning">Warning</button>
+            <button data-severity="info">Info</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Severity</th>
+                <th>Service</th>
+                <th>Event</th>
+                <th>Trace</th>
+              </tr>
+            </thead>
+            <tbody id="logRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="incidents" class="view">
+        <div id="incidentList" class="incident-list"></div>
+      </section>
+
+      <section id="reports" class="view">
+        <div class="report-layout">
+          <section class="panel report">
+            <div class="panel-header">
+              <h3>Generated incident report</h3>
+              <span id="reportTime">Draft</span>
+            </div>
+            <div id="reportBody"></div>
+          </section>
+          <aside class="panel assistant">
+            <div class="panel-header">
+              <h3>Ask the analyst</h3>
+              <span>Private mode</span>
+            </div>
+            <div id="chat" class="chat"></div>
+            <form id="askForm">
+              <input id="askInput" type="text" placeholder="Ask about root cause, impact, or next action" />
+              <button type="submit">Ask</button>
+            </form>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
